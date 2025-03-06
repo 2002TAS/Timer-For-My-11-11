@@ -20,7 +20,7 @@
       margin: 0;
       overflow: hidden;
       padding: 20px;
-      border: 5px solid #e4c7a3; /* Updated beige border color */
+      border: 5px dashed white; /* Updated to a fancy white dashed border */
       box-sizing: border-box;
     }
 
@@ -66,6 +66,19 @@
     }
 
     .hidden { display: none; }
+
+    /* Airplane Animation */
+    .airplane {
+      position: absolute;
+      font-size: 30px;
+      opacity: 0.9;
+      animation: flyAcross linear infinite;
+    }
+
+    @keyframes flyAcross {
+      0% { transform: translateX(-10vw); }
+      100% { transform: translateX(110vw); }
+    }
   </style>
 </head>
 <body>
@@ -135,8 +148,27 @@
       return colors[Math.floor(Math.random() * colors.length)];
     }
 
+    function startAirplaneAnimation() {
+      setInterval(() => {
+        let airplane = document.createElement("div");
+        airplane.className = "airplane";
+        airplane.textContent = "✈️";
+        
+        // Set random height for each airplane
+        let randomTop = Math.random() * 80 + 10; // Ensures it doesn't go too high/low
+        airplane.style.top = randomTop + "vh";
+        airplane.style.animationDuration = (Math.random() * 4 + 6) + "s"; // Varies speed slightly
+        
+        document.body.appendChild(airplane);
+        
+        // Remove airplane after it crosses the screen
+        setTimeout(() => airplane.remove(), 10000);
+      }, Math.random() * 4000 + 3000); // Random interval between flights
+    }
+
     const targetTimeUTC = new Date(Date.UTC(2025, 2, 8, 23, 55, 0)).getTime();
     startCountdown(targetTimeUTC);
+    startAirplaneAnimation();
   </script>
 
 </body>
