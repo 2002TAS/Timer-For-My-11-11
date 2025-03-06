@@ -11,7 +11,7 @@
       background: linear-gradient(-45deg, #ff758c, #ff4b5c, #ff758c, #ff4b5c);
       background-size: 400% 400%;
       animation: backgroundPulse 5s ease infinite;
-      color: #F5E6DA; /* Warm beige */
+      color: #F5E6DA;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -19,7 +19,9 @@
       height: 100vh;
       margin: 0;
       overflow: hidden;
-      padding: 0 15px;
+      padding: 20px;
+      border: 5px solid #F5E6DA; /* Beige border around the page */
+      box-sizing: border-box;
     }
 
     @keyframes backgroundPulse {
@@ -41,62 +43,29 @@
     }
 
     #bear-image {
-      width: 120px; /* Keeps bear image at a balanced size */
+      width: 120px;
       margin: 10px 0;
-      padding: 8px; /* Soft padding around the bear */
+      padding: 8px;
       background: #f5e6da;
-      border-radius: 15px; /* Makes the padding blend smoothly */
+      border-radius: 15px;
     }
 
     #timer {
       font-size: 18px;
       font-weight: bold;
-      margin-bottom: 40px; /* Ensures it doesn’t get cut off */
+      margin-bottom: 10px; /* Ensures space for the text below */
       position: absolute;
-      bottom: 20px;
+      bottom: 40px;
+    }
+
+    #below-timer-text {
+      font-size: 14px;
+      font-weight: bold;
+      position: absolute;
+      bottom: 10px;
     }
 
     .hidden { display: none; }
-
-    /* Confetti Styles */
-    .confetti {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      opacity: 0.8;
-      top: -10px;
-      animation: fall linear infinite;
-    }
-
-    .confetti.wavy {
-      width: 12px;
-      height: 30px;
-      border-radius: 5px;
-      animation: fall-wavy linear infinite;
-    }
-
-    .confetti.streamer {
-      width: 6px;
-      height: 25px;
-      animation: fall-streamer linear infinite;
-    }
-
-    @keyframes fall {
-      0% { transform: translateY(-10vh) rotate(0deg); }
-      100% { transform: translateY(100vh) rotate(360deg); }
-    }
-
-    @keyframes fall-wavy {
-      0% { transform: translateY(-10vh) rotate(0deg); }
-      50% { transform: translateY(50vh) rotate(180deg); }
-      100% { transform: translateY(100vh) rotate(360deg); }
-    }
-
-    @keyframes fall-streamer {
-      0% { transform: translateY(-10vh) rotate(0deg); }
-      50% { transform: translateY(50vh) rotate(90deg); }
-      100% { transform: translateY(100vh) rotate(180deg); }
-    }
   </style>
 </head>
 <body>
@@ -107,6 +76,9 @@
   <img id="bear-image" src="https://raw.githubusercontent.com/2002TAS/Timer-For-My-11-11/main/Bear.webp" alt="Cute Bear Waiting for a Hug">
 
   <div id="timer"></div>
+
+  <!-- Added the new text below the timer -->
+  <div id="below-timer-text">Until You Are In My Arms Again</div>
 
   <script>
     let confettiStarted = false;
@@ -120,8 +92,9 @@
           document.getElementById("heading").textContent = "Yay, you're here! ♥️";
           document.getElementById("message").classList.add("hidden");
           document.getElementById("timer").classList.add("hidden");
+          document.getElementById("below-timer-text").classList.add("hidden");
 
-          if (!confettiStarted) { // Start confetti only once
+          if (!confettiStarted) {
             confettiStarted = true;
             startConfetti();
           }
@@ -143,40 +116,27 @@
 
     function startConfetti() {
       setInterval(() => {
-        setTimeout(() => createConfetti(), Math.random() * 800); // Random delay for smoother effect
-      }, 200); // Keeps confetti falling forever
+        setTimeout(() => createConfetti(), Math.random() * 800);
+      }, 200);
     }
 
     function createConfetti() {
       const confetti = document.createElement("div");
       confetti.className = "confetti";
-
-      // Randomly assign different confetti styles
-      const confettiTypes = ["", "wavy", "streamer"];
-      confetti.classList.add(confettiTypes[Math.floor(Math.random() * confettiTypes.length)]);
-
       confetti.style.left = Math.random() * 100 + "vw";
       confetti.style.backgroundColor = getRandomColor();
       confetti.style.animationDuration = (Math.random() * 3 + 2) + "s";
-      confetti.style.animationDelay = Math.random() * 1.5 + "s"; // Staggers the confetti for more realism
-
       document.body.appendChild(confetti);
-      setTimeout(() => confetti.remove(), 5000); // Remove confetti after it falls
+      setTimeout(() => confetti.remove(), 5000);
     }
 
     function getRandomColor() {
-      let colors = ["#ffcc00", "#ff6666", "#66ccff", "#66ff66", "#ff66ff", "#ff5733", "#33ff57", "#5733ff"];
+      let colors = ["#ffcc00", "#ff6666", "#66ccff", "#66ff66", "#ff66ff"];
       return colors[Math.floor(Math.random() * colors.length)];
     }
 
-    // ✅ Set correct countdown to March 8, 2025, 6:55 PM EST
     const targetTimeUTC = new Date(Date.UTC(2025, 2, 8, 23, 55, 0)).getTime();
     startCountdown(targetTimeUTC);
-
-    // ✅ Start confetti IMMEDIATELY if the page is refreshed after the countdown
-    if (new Date().getTime() >= targetTimeUTC) {
-      startConfetti();
-    }
   </script>
 
 </body>
