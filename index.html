@@ -119,21 +119,6 @@
       50% { opacity: 1; transform: translateY(-10px); }
       100% { opacity: 0; transform: translateY(10px); }
     }
-
-    /* ✈️ Plane Animation */
-    .airplane {
-      position: absolute;
-      font-size: 30px;
-      opacity: 1;
-      left: -5vw;
-      bottom: -5vh;
-      animation: flyDiagonal 5s linear forwards;
-    }
-
-    @keyframes flyDiagonal {
-      0% { transform: translate(0vw, 0vh) scale(1); opacity: 1; }
-      100% { transform: translate(110vw, -110vh) scale(1.2); opacity: 0; }
-    }
   </style>
 </head>
 <body>
@@ -187,9 +172,23 @@
       }, 12000);
     }
 
+    function createSparkles() {
+      setInterval(() => {
+        let sparkle = document.createElement("div");
+        sparkle.className = "sparkle";
+        sparkle.style.left = Math.random() * 100 + "vw";
+        sparkle.style.top = Math.random() * 100 + "vh";
+        sparkle.style.width = Math.random() * 6 + 3 + "px"; /* Vary sizes */
+        sparkle.style.height = sparkle.style.width;
+        document.body.appendChild(sparkle);
+        setTimeout(() => sparkle.remove(), 2000);
+      }, 700);
+    }
+
     const targetTimeUTC = new Date(Date.UTC(2025, 2, 8, 23, 55, 0)).getTime();
     startCountdown(targetTimeUTC);
     createLoveMessages();
+    createSparkles();
   </script>
 
 </body>
