@@ -8,10 +8,10 @@
     body {
       font-family: "Trebuchet MS", sans-serif;
       text-align: center;
-      background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #ffdde1);
+      background: linear-gradient(-45deg, #ff758c, #ff4b5c, #ff758c, #ff4b5c);
       background-size: 400% 400%;
-      animation: backgroundPulse 10s ease infinite;
-      color: white;
+      animation: backgroundPulse 5s ease infinite;
+      color: #F5E6DA; /* Warm beige */
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -19,7 +19,7 @@
       height: 100vh;
       margin: 0;
       overflow: hidden;
-      padding: 0 15px; /* Prevents text from touching edges on mobile */
+      padding: 0 15px;
     }
 
     @keyframes backgroundPulse {
@@ -29,21 +29,31 @@
     }
 
     h1 {
-      font-size: 22px; /* Largest */
+      font-size: 22px;
       font-weight: bold;
       margin-bottom: 5px;
     }
 
     #message {
-      font-size: 14px; /* Smallest */
+      font-size: 14px;
       font-weight: bold;
       margin-bottom: 15px;
     }
 
+    #bear-image {
+      width: 120px; /* Keeps bear image at a balanced size */
+      margin: 10px 0;
+      padding: 8px; /* Soft padding around the bear */
+      background: #f5e6da;
+      border-radius: 15px; /* Makes the padding blend smoothly */
+    }
+
     #timer {
-      font-size: 18px; /* Second largest */
+      font-size: 18px;
       font-weight: bold;
-      margin-bottom: 20px;
+      margin-bottom: 40px; /* Ensures it doesn’t get cut off */
+      position: absolute;
+      bottom: 20px;
     }
 
     .hidden { display: none; }
@@ -93,6 +103,9 @@
 
   <h1 id="heading">My Countdown To When My Wife Lands</h1>
   <div id="message">♥️ Safe Travels Mi Amor ♥️</div>
+
+  <img id="bear-image" src="A_cute,_cartoon_bear_sitting_on_its_legs_with_its_.png" alt="Cute Bear Waiting for a Hug">
+
   <div id="timer"></div>
 
   <script>
