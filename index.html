@@ -20,8 +20,6 @@
       margin: 0;
       overflow: hidden;
       padding: 20px;
-      border: 5px dashed white; /* Updated to a fancy white dashed border */
-      box-sizing: border-box;
     }
 
     @keyframes backgroundPulse {
@@ -33,12 +31,13 @@
     h1 {
       font-size: 22px;
       font-weight: bold;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
     }
 
     #message {
       font-size: 14px;
       font-weight: bold;
+      margin-top: 20px; /* Moved slightly lower */
       margin-bottom: 15px;
     }
 
@@ -53,7 +52,7 @@
     #timer {
       font-size: 18px;
       font-weight: bold;
-      margin-bottom: 5px; /* Reduced space to bring text closer */
+      margin-bottom: 5px; /* Keeps spacing balanced */
       position: absolute;
       bottom: 50px;
     }
@@ -62,22 +61,26 @@
       font-size: 14px;
       font-weight: bold;
       position: absolute;
-      bottom: 25px; /* Adjusted position to be closer to the timer */
+      bottom: 25px;
     }
 
     .hidden { display: none; }
 
-    /* Airplane Animation */
+    /* Airplane Animation - Moves DIAGONALLY */
     .airplane {
       position: absolute;
       font-size: 30px;
       opacity: 0.9;
-      animation: flyAcross linear infinite;
     }
 
-    @keyframes flyAcross {
-      0% { transform: translateX(-10vw); }
-      100% { transform: translateX(110vw); }
+    @keyframes flyDiagonal {
+      0% { transform: translate(-10vw, -10vh) rotate(0deg); }
+      100% { transform: translate(110vw, 110vh) rotate(45deg); }
+    }
+
+    @keyframes flyDiagonalReverse {
+      0% { transform: translate(110vw, -10vh) rotate(0deg); }
+      100% { transform: translate(-10vw, 110vh) rotate(-45deg); }
     }
   </style>
 </head>
@@ -90,7 +93,6 @@
 
   <div id="timer"></div>
 
-  <!-- Adjusted text position below timer -->
   <div id="below-timer-text">Until You're In My Arms Again</div>
 
   <script>
@@ -127,43 +129,32 @@
       updateTimer();
     }
 
-    function startConfetti() {
-      setInterval(() => {
-        setTimeout(() => createConfetti(), Math.random() * 800);
-      }, 200);
-    }
-
-    function createConfetti() {
-      const confetti = document.createElement("div");
-      confetti.className = "confetti";
-      confetti.style.left = Math.random() * 100 + "vw";
-      confetti.style.backgroundColor = getRandomColor();
-      confetti.style.animationDuration = (Math.random() * 3 + 2) + "s";
-      document.body.appendChild(confetti);
-      setTimeout(() => confetti.remove(), 5000);
-    }
-
-    function getRandomColor() {
-      let colors = ["#ffcc00", "#ff6666", "#66ccff", "#66ff66", "#ff66ff"];
-      return colors[Math.floor(Math.random() * colors.length)];
-    }
-
     function startAirplaneAnimation() {
       setInterval(() => {
         let airplane = document.createElement("div");
         airplane.className = "airplane";
         airplane.textContent = "✈️";
         
-        // Set random height for each airplane
-        let randomTop = Math.random() * 80 + 10; // Ensures it doesn't go too high/low
-        airplane.style.top = randomTop + "vh";
-        airplane.style.animationDuration = (Math.random() * 4 + 6) + "s"; // Varies speed slightly
+        // Randomly decide whether to fly bottom-left to top-right OR top-left to bottom-right
+        let direction = Math.random() < 0.5 ? "flyDiagonal" : "flyDiagonalReverse";
+
+        // Set airplane start position (only at the edges)
+        if (direction === "flyDiagonal") {
+          airplane.style.left = "-10vw";
+          airplane.style.top = "-10vh";
+        } else {
+          airplane.style.left = "110vw";
+          airplane.style.top = "-10vh";
+        }
+
+        // Apply animation
+        airplane.style.animation = `${direction} ${Math.random() * 4 + 6}s linear`;
         
         document.body.appendChild(airplane);
         
-        // Remove airplane after it crosses the screen
-        setTimeout(() => airplane.remove(), 10000);
-      }, Math.random() * 4000 + 3000); // Random interval between flights
+        // Remove airplane after animation completes
+        setTimeout(() => airplane.remove(), 7000);
+      }, Math.random() * 4000 + 3000);
     }
 
     const targetTimeUTC = new Date(Date.UTC(2025, 2, 8, 23, 55, 0)).getTime();
