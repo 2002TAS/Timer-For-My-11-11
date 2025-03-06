@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>My Countdown To When My Wife Lands</title>
+  
+  <!-- Google Font - Pacifico -->
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
   <style>
     body {
       font-family: "Trebuchet MS", sans-serif;
@@ -20,6 +24,7 @@
       margin: 0;
       overflow: hidden;
       padding: 20px;
+      position: relative;
     }
 
     @keyframes backgroundPulse {
@@ -28,10 +33,12 @@
       100% { background-position: 0% 50%; }
     }
 
+    /* Pacifico Font for Main Title */
     h1 {
-      font-size: 22px;
+      font-size: 24px;
       font-weight: bold;
       margin-bottom: 10px;
+      font-family: "Pacifico", cursive;
     }
 
     #message {
@@ -66,33 +73,50 @@
 
     .hidden { display: none; }
 
-    /* ✈️ Airplane Animation - Starts from bottom-left and flies diagonally to top-right */
-    .airplane {
+    /* ✨ Sparkle Animation */
+    .sparkle {
       position: absolute;
-      font-size: 30px;
-      opacity: 1;
-      left: -5vw; /* Start outside the left edge */
-      bottom: -5vh; /* Start outside the bottom edge */
-      animation: flyDiagonal 5s linear forwards;
-    }
-
-    @keyframes flyDiagonal {
-      0% { transform: translate(0vw, 0vh) scale(1); opacity: 1; }
-      100% { transform: translate(110vw, -110vh) scale(1.2); opacity: 0; }
-    }
-
-    /* ❤️ Hearts Animation - Appear randomly & move in random directions */
-    .heart {
-      position: absolute;
-      font-size: 25px;
+      width: 5px;
+      height: 5px;
+      background: white;
+      border-radius: 50%;
       opacity: 0;
-      animation: floatHeart 4s linear forwards;
+      animation: twinkle 2s linear infinite;
     }
 
-    @keyframes floatHeart {
-      0% { opacity: 0; transform: translate(0, 0) scale(1); }
-      50% { opacity: 1; transform: translate(var(--x), var(--y)) scale(1.2); }
-      100% { opacity: 0; transform: translate(var(--x), var(--y)) scale(1); }
+    @keyframes twinkle {
+      0% { opacity: 0; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.3); }
+      100% { opacity: 0; transform: scale(1); }
+    }
+
+    /* ☁️ Floating Clouds */
+    .cloud {
+      position: absolute;
+      width: 100px;
+      opacity: 0.6;
+      animation: floatClouds linear infinite;
+    }
+
+    @keyframes floatClouds {
+      0% { transform: translateX(-10vw); }
+      100% { transform: translateX(110vw); }
+    }
+
+    /* 💬 Love Messages */
+    .love-message {
+      position: absolute;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      opacity: 0;
+      animation: fadeInOut 6s linear infinite;
+    }
+
+    @keyframes fadeInOut {
+      0% { opacity: 0; transform: translateY(10px); }
+      50% { opacity: 1; transform: translateY(-10px); }
+      100% { opacity: 0; transform: translateY(10px); }
     }
   </style>
 </head>
@@ -141,46 +165,52 @@
       updateTimer();
     }
 
-    function startAirplaneAnimation() {
+    function createSparkles() {
       setInterval(() => {
-        let airplane = document.createElement("div");
-        airplane.className = "airplane";
-        airplane.textContent = "✈️";
-
-        document.body.appendChild(airplane);
-        
-        // Remove airplane after animation completes
-        setTimeout(() => airplane.remove(), 6000);
-      }, Math.random() * 4000 + 3000);
+        let sparkle = document.createElement("div");
+        sparkle.className = "sparkle";
+        sparkle.style.left = Math.random() * 100 + "vw";
+        sparkle.style.top = Math.random() * 100 + "vh";
+        document.body.appendChild(sparkle);
+        setTimeout(() => sparkle.remove(), 2000);
+      }, 500);
     }
 
-    function startHeartAnimation() {
+    function createClouds() {
       setInterval(() => {
-        let heart = document.createElement("div");
-        heart.className = "heart";
-        heart.textContent = "♥️";
+        let cloud = document.createElement("img");
+        cloud.src = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Cloud_icon.svg/120px-Cloud_icon.svg.png";
+        cloud.className = "cloud";
+        cloud.style.top = Math.random() * 80 + "vh";
+        cloud.style.animationDuration = Math.random() * 20 + 20 + "s";
+        document.body.appendChild(cloud);
+        setTimeout(() => cloud.remove(), 25000);
+      }, 6000);
+    }
 
-        // Set random start position
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.top = Math.random() * 100 + "vh";
-
-        // Set random movement direction
-        let xMove = (Math.random() - 0.5) * 200 + "px";
-        let yMove = (Math.random() - 0.5) * 200 + "px";
-        heart.style.setProperty("--x", xMove);
-        heart.style.setProperty("--y", yMove);
-
-        document.body.appendChild(heart);
-        
-        // Remove heart after animation completes
-        setTimeout(() => heart.remove(), 4000);
-      }, Math.random() * 3000 + 2000);
+    function createLoveMessages() {
+      const messages = [
+        "I love you bubba 🥰",
+        "GIMME THAT HUG NOW 😡",
+        "I was so giddy making this little project 🤪",
+        "Counting down the seconds, literally"
+      ];
+      setInterval(() => {
+        let message = document.createElement("div");
+        message.className = "love-message";
+        message.textContent = messages[Math.floor(Math.random() * messages.length)];
+        message.style.left = Math.random() * 80 + "vw";
+        message.style.top = Math.random() * 80 + "vh";
+        document.body.appendChild(message);
+        setTimeout(() => message.remove(), 6000);
+      }, 4000);
     }
 
     const targetTimeUTC = new Date(Date.UTC(2025, 2, 8, 23, 55, 0)).getTime();
     startCountdown(targetTimeUTC);
-    startAirplaneAnimation();
-    startHeartAnimation();
+    createSparkles();
+    createClouds();
+    createLoveMessages();
   </script>
 
 </body>
