@@ -59,26 +59,17 @@
     }
 
     /* ⏳ Timer */
-    #timer {
-      font-size: 18px;
-      font-weight: bold;
-      margin-top: 10px;
+    #timer-container {
       position: fixed;
       bottom: 60px;
       left: 50%;
       transform: translateX(-50%);
       background: rgba(0, 0, 0, 0.3);
-      padding: 5px 15px;
+      padding: 8px 20px;
       border-radius: 10px;
-    }
-
-    #below-timer-text {
-      font-size: 14px;
+      font-size: 18px;
       font-weight: bold;
-      position: fixed;
-      bottom: 35px;
-      left: 50%;
-      transform: translateX(-50%);
+      color: white;
     }
 
     .hidden { display: none; }
@@ -152,10 +143,31 @@
 
   <img id="bear-image" src="https://raw.githubusercontent.com/2002TAS/Timer-For-My-11-11/main/Bear.webp" alt="Cute Bear Waiting for a Hug">
 
-  <div id="timer"></div>
-  <div id="below-timer-text">Until You're In My Arms Again</div>
+  <div id="timer-container"><span id="timer">Loading...</span></div>
 
   <script>
+    function startCountdown(targetDate) {
+      function updateTimer() {
+        let now = new Date().getTime();
+        let timeLeft = targetDate - now;
+
+        if (timeLeft <= 0) {
+          document.getElementById("heading").textContent = "Yay, you're here! ♥️";
+          document.getElementById("message").classList.add("hidden");
+          document.getElementById("timer-container").classList.add("hidden");
+          clearInterval(timerInterval);
+        } else {
+          let days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+          let hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          let minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+          let seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+          document.getElementById("timer").textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }
+      }
+      let timerInterval = setInterval(updateTimer, 1000);
+      updateTimer();
+    }
+
     function createLoveMessages() {
       const messages = [
         "I love you bubba 🥰",
@@ -175,45 +187,9 @@
       }, 12000);
     }
 
-    function createClouds() {
-      setInterval(() => {
-        let cloud = document.createElement("div");
-        cloud.className = "cloud";
-        cloud.textContent = "☁️";
-        cloud.style.left = Math.random() * 80 + "vw";
-        cloud.style.top = Math.random() * 15 + 5 + "vh"; /* Ensures clouds are near the top */
-        document.body.appendChild(cloud);
-        setTimeout(() => cloud.remove(), 10000);
-      }, 7000);
-    }
-
-    function createSparkles() {
-      setInterval(() => {
-        let sparkle = document.createElement("div");
-        sparkle.className = "sparkle";
-        sparkle.style.left = Math.random() * 100 + "vw";
-        sparkle.style.top = Math.random() * 100 + "vh";
-        sparkle.style.width = Math.random() * 6 + 3 + "px"; /* Vary sizes */
-        sparkle.style.height = sparkle.style.width;
-        document.body.appendChild(sparkle);
-        setTimeout(() => sparkle.remove(), 2000);
-      }, 700);
-    }
-
-    function startAirplaneAnimation() {
-      setInterval(() => {
-        let airplane = document.createElement("div");
-        airplane.className = "airplane";
-        airplane.textContent = "✈️";
-        document.body.appendChild(airplane);
-        setTimeout(() => airplane.remove(), 6000);
-      }, Math.random() * 4000 + 3000);
-    }
-
+    const targetTimeUTC = new Date(Date.UTC(2025, 2, 8, 23, 55, 0)).getTime();
+    startCountdown(targetTimeUTC);
     createLoveMessages();
-    createClouds();
-    createSparkles();
-    startAirplaneAnimation();
   </script>
 
 </body>
