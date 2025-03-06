@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>My Countdown To When My Wife Lands</title>
   
-  <!-- Google Font - Pacifico -->
+  <!-- Google Fonts - Pacifico for Heading, Subtext, and Love Messages -->
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 
   <style>
@@ -41,11 +41,13 @@
       font-family: "Pacifico", cursive;
     }
 
+    /* "Safe Travels Mi Amor" in Pacifico Font */
     #message {
       font-size: 14px;
       font-weight: bold;
-      margin-top: 20px; /* Moved slightly lower */
+      margin-top: 20px;
       margin-bottom: 15px;
+      font-family: "Pacifico", cursive;
     }
 
     #bear-image {
@@ -73,11 +75,23 @@
 
     .hidden { display: none; }
 
+    /* ☁️ Clouds Fading in and Out Near the Top */
+    .cloud {
+      position: absolute;
+      font-size: 30px;
+      opacity: 0;
+      animation: fadeClouds 8s linear infinite;
+    }
+
+    @keyframes fadeClouds {
+      0% { opacity: 0; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.1); }
+      100% { opacity: 0; transform: scale(1); }
+    }
+
     /* ✨ Sparkle Animation */
     .sparkle {
       position: absolute;
-      width: 5px;
-      height: 5px;
       background: white;
       border-radius: 50%;
       opacity: 0;
@@ -86,29 +100,15 @@
 
     @keyframes twinkle {
       0% { opacity: 0; transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.3); }
+      50% { opacity: 1; transform: scale(1.5); }
       100% { opacity: 0; transform: scale(1); }
     }
 
-    /* ☁️ Floating Clouds (Only at the Top) */
-    .cloud {
-      position: absolute;
-      width: 100px;
-      opacity: 0.6;
-      top: 0;
-      animation: floatClouds linear infinite;
-    }
-
-    @keyframes floatClouds {
-      0% { transform: translateX(-10vw); }
-      100% { transform: translateX(110vw); }
-    }
-
-    /* 💬 Love Messages */
+    /* 💬 Love Messages - Now in Pacifico Font */
     .love-message {
       position: absolute;
-      font-size: 12px; /* Smaller font */
-      font-family: "Pacifico", cursive; /* Same cursive font as title */
+      font-size: 10px; /* Smaller size */
+      font-family: "Pacifico", cursive; /* Matches heading font */
       font-weight: bold;
       color: white;
       opacity: 0;
@@ -167,27 +167,29 @@
       updateTimer();
     }
 
+    function createClouds() {
+      setInterval(() => {
+        let cloud = document.createElement("div");
+        cloud.className = "cloud";
+        cloud.textContent = "☁️";
+        cloud.style.left = Math.random() * 80 + "vw";
+        cloud.style.top = Math.random() * 15 + 5 + "vh"; /* Clouds appear near the top */
+        document.body.appendChild(cloud);
+        setTimeout(() => cloud.remove(), 8000);
+      }, 7000); /* Clouds appear less frequently */
+    }
+
     function createSparkles() {
       setInterval(() => {
         let sparkle = document.createElement("div");
         sparkle.className = "sparkle";
         sparkle.style.left = Math.random() * 100 + "vw";
         sparkle.style.top = Math.random() * 100 + "vh";
+        sparkle.style.width = Math.random() * 6 + 3 + "px"; /* Vary sizes */
+        sparkle.style.height = sparkle.style.width;
         document.body.appendChild(sparkle);
         setTimeout(() => sparkle.remove(), 2000);
-      }, 500);
-    }
-
-    function createClouds() {
-      setInterval(() => {
-        let cloud = document.createElement("img");
-        cloud.src = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Cloud_icon.svg/120px-Cloud_icon.svg.png";
-        cloud.className = "cloud";
-        cloud.style.left = Math.random() * 80 + "vw"; /* Only appears at the top */
-        cloud.style.animationDuration = Math.random() * 30 + 20 + "s";
-        document.body.appendChild(cloud);
-        setTimeout(() => cloud.remove(), 30000);
-      }, 10000); /* Clouds appear less frequently */
+      }, 700);
     }
 
     function createLoveMessages() {
@@ -206,13 +208,13 @@
         message.style.top = Math.random() * 60 + "vh";
         document.body.appendChild(message);
         setTimeout(() => message.remove(), 8000);
-      }, 10000); /* Love messages appear less frequently */
+      }, 12000); /* Love messages appear less frequently */
     }
 
     const targetTimeUTC = new Date(Date.UTC(2025, 2, 8, 23, 55, 0)).getTime();
     startCountdown(targetTimeUTC);
-    createSparkles();
     createClouds();
+    createSparkles();
     createLoveMessages();
   </script>
 
