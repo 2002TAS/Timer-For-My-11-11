@@ -90,11 +90,12 @@
       100% { opacity: 0; transform: scale(1); }
     }
 
-    /* ☁️ Floating Clouds */
+    /* ☁️ Floating Clouds (Only at the Top) */
     .cloud {
       position: absolute;
       width: 100px;
       opacity: 0.6;
+      top: 0;
       animation: floatClouds linear infinite;
     }
 
@@ -106,11 +107,12 @@
     /* 💬 Love Messages */
     .love-message {
       position: absolute;
-      font-size: 16px;
+      font-size: 12px; /* Smaller font */
+      font-family: "Pacifico", cursive; /* Same cursive font as title */
       font-weight: bold;
       color: white;
       opacity: 0;
-      animation: fadeInOut 6s linear infinite;
+      animation: fadeInOut 8s linear infinite;
     }
 
     @keyframes fadeInOut {
@@ -181,17 +183,18 @@
         let cloud = document.createElement("img");
         cloud.src = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Cloud_icon.svg/120px-Cloud_icon.svg.png";
         cloud.className = "cloud";
-        cloud.style.top = Math.random() * 80 + "vh";
-        cloud.style.animationDuration = Math.random() * 20 + 20 + "s";
+        cloud.style.left = Math.random() * 80 + "vw"; /* Only appears at the top */
+        cloud.style.animationDuration = Math.random() * 30 + 20 + "s";
         document.body.appendChild(cloud);
-        setTimeout(() => cloud.remove(), 25000);
-      }, 6000);
+        setTimeout(() => cloud.remove(), 30000);
+      }, 10000); /* Clouds appear less frequently */
     }
 
     function createLoveMessages() {
       const messages = [
         "I love you bubba 🥰",
         "GIMME THAT HUG NOW 😡",
+        "HAIII GORGEOUSSSS",
         "I was so giddy making this little project 🤪",
         "Counting down the seconds, literally"
       ];
@@ -200,10 +203,10 @@
         message.className = "love-message";
         message.textContent = messages[Math.floor(Math.random() * messages.length)];
         message.style.left = Math.random() * 80 + "vw";
-        message.style.top = Math.random() * 80 + "vh";
+        message.style.top = Math.random() * 60 + "vh";
         document.body.appendChild(message);
-        setTimeout(() => message.remove(), 6000);
-      }, 4000);
+        setTimeout(() => message.remove(), 8000);
+      }, 10000); /* Love messages appear less frequently */
     }
 
     const targetTimeUTC = new Date(Date.UTC(2025, 2, 8, 23, 55, 0)).getTime();
