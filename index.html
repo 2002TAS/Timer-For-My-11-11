@@ -1,107 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Countdown to When My Wife Lands</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            text-align: center;
-            background-color: #1e1e2e;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden;
-        }
-        h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-        #message {
-            font-size: 20px;
-            margin-bottom: 20px;
-        }
-        #timer {
-            font-size: 50px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-        .hidden {
-            display: none;
-        }
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #ffcc00;
-            opacity: 0.7;
-            top: -10px;
-            animation: fall linear infinite;
-        }
-        @keyframes fall {
-            0% { transform: translateY(0px) rotate(0deg); }
-            100% { transform: translateY(100vh) rotate(360deg); }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Countdown to When My Wife Lands</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      text-align: center;
+      background-color: #1e1e2e;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+    #message {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+    #timer {
+      font-size: 50px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .hidden { display: none; }
+
+    /* Confetti styles */
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      opacity: 0.8;
+      top: -10px;
+      animation: fall linear infinite;
+    }
+    .confetti.wavy {
+      width: 12px;
+      height: 30px;
+      border-radius: 5px;
+      animation: fall-wavy linear infinite;
+    }
+    .confetti.streamer {
+      width: 6px;
+      height: 25px;
+      animation: fall-streamer linear infinite;
+    }
+    @keyframes fall {
+      0% { transform: translateY(-10vh) rotate(0deg); }
+      100% { transform: translateY(100vh) rotate(360deg); }
+    }
+    @keyframes fall-wavy {
+      0% { transform: translateY(-10vh) rotate(0deg); }
+      50% { transform: translateY(50vh) rotate(180deg); }
+      100% { transform: translateY(100vh) rotate(360deg); }
+    }
+    @keyframes fall-streamer {
+      0% { transform: translateY(-10vh) rotate(0deg); }
+      50% { transform: translateY(50vh) rotate(90deg); }
+      100% { transform: translateY(100vh) rotate(180deg); }
+    }
+  </style>
 </head>
 <body>
 
-    <h1 id="heading">My countdown to when my wife lands</h1>
-    <div id="message">Safe travels ✈️</div>
-    <div id="timer"></div>
+  <h1 id="heading">My countdown to when my wife lands</h1>
+  <div id="message">Safe travels ✈️</div>
+  <div id="timer"></div>
 
-    <script>
-        function startCountdown(targetDate) {
-            function updateTimer() {
-                let now = new Date().getTime();
-                let timeLeft = targetDate - now;
+  <script>
+    function startCountdown(targetDate) {
+      function updateTimer() {
+        let now = new Date().getTime();
+        let timeLeft = targetDate - now;
 
-                if (timeLeft <= 0) {
-                    document.getElementById("heading").textContent = "You're here! ❤️";
-                    document.getElementById("message").classList.add("hidden");
-                    document.getElementById("timer").classList.add("hidden");
-                    startConfetti();
-                    clearInterval(timerInterval);
-                } else {
-                    let days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-                    let hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    let minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-                    let seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+        if (timeLeft <= 0) {
+          document.getElementById("heading").textContent = "Yay, you're here! ♥️";
+          document.getElementById("message").classList.add("hidden");
+          document.getElementById("timer").classList.add("hidden");
+          startConfetti();
+          clearInterval(timerInterval);
+        } else {
+          let days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+          let hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          let minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+          let seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-                    document.getElementById("timer").textContent =
-                        `${days}d ${hours}h ${minutes}m ${seconds}s`;
-                }
-            }
-
-            let timerInterval = setInterval(updateTimer, 1000);
-            updateTimer();
+          document.getElementById("timer").textContent =
+            `${days}d ${hours}h ${minutes}m ${seconds}s`;
         }
+      }
+      let timerInterval = setInterval(updateTimer, 1000);
+      updateTimer();
+    }
 
-        function startConfetti() {
-            for (let i = 0; i < 100; i++) {
-                let confetti = document.createElement("div");
-                confetti.className = "confetti";
-                confetti.style.left = Math.random() * 100 + "vw";
-                confetti.style.backgroundColor = getRandomColor();
-                confetti.style.animationDuration = (Math.random() * 3 + 2) + "s";
-                document.body.appendChild(confetti);
-                setTimeout(() => confetti.remove(), 5000);
-            }
-        }
+    function startConfetti() {
+      setInterval(() => {
+        createConfetti();
+      }, 200); // Creates new confetti every 200ms (runs forever)
+    }
 
-        function getRandomColor() {
-            let colors = ["#ffcc00", "#ff6666", "#66ccff", "#66ff66", "#ff66ff"];
-            return colors[Math.floor(Math.random() * colors.length)];
-        }
+    function createConfetti() {
+      const confetti = document.createElement("div");
+      confetti.className = "confetti";
 
-        // Set the arrival time (March 8, 2024, at 6:55 PM EST)
-        startCountdown(new Date("March 8, 2024 18:55:00 EST").getTime());
-    </script>
+      // Randomly assign different confetti styles
+      const confettiTypes = ["", "wavy", "streamer"];
+      confetti.classList.add(confettiTypes[Math.floor(Math.random() * confettiTypes.length)]);
+
+      confetti.style.left = Math.random() * 100 + "vw";
+      confetti.style.backgroundColor = getRandomColor();
+      confetti.style.animationDuration = (Math.random() * 3 + 2) + "s";
+
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 5000); // Remove confetti after it falls
+    }
+
+    function getRandomColor() {
+      let colors = ["#ffcc00", "#ff6666", "#66ccff", "#66ff66", "#ff66ff", "#ff5733", "#33ff57", "#5733ff"];
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    // ✅ Set correct countdown to March 8, 2025, 6:55 PM EST
+    const targetTimeUTC = new Date(Date.UTC(2025, 2, 8, 23, 55, 0)).getTime(); // Converts 6:55 PM EST to UTC
+    startCountdown(targetTimeUTC);
+  </script>
 
 </body>
 </html>
