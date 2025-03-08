@@ -65,6 +65,10 @@
       height: 100%;
     }
 
+    #celebration-page {
+      display: none; /* Initially Hidden */
+    }
+
     /* 🐻 Original Bear (Before Countdown Ends) */
     #original-bear {
       width: 120px;
@@ -154,7 +158,7 @@
     <div id="timer-container"><span id="timer">Loading...</span></div>
   </div>
 
-  <div id="celebration-page" class="hidden">
+  <div id="celebration-page">
     <h1 id="celebration-heading" class="glowing-text">YAY MY WIFE IS HERE!</h1>
     <img id="hugging-bear" src="https://raw.githubusercontent.com/2002TAS/Timer-For-My-11-11/main/HuggingBear.webp" alt="Hugging Bear">
   </div>
@@ -191,8 +195,8 @@
     }
 
     function showCelebrationPage() {
-      document.getElementById("countdown-page").classList.add("hidden");
-      document.getElementById("celebration-page").classList.remove("hidden");
+      document.getElementById("countdown-page").style.display = "none";
+      document.getElementById("celebration-page").style.display = "flex";
     }
   </script>
 
