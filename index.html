@@ -12,9 +12,9 @@
     body {
       font-family: "Trebuchet MS", sans-serif;
       text-align: center;
-      background: linear-gradient(-45deg, #ffcc80, #80c7ff, #ffcc80, #80c7ff);
+      background: linear-gradient(-45deg, #FFCB05, #00274C, #FFCB05, #00274C);
       background-size: 400% 400%;
-      animation: backgroundPulse 5s ease infinite;
+      animation: umichPulse 5s ease infinite;
       color: #F5E6DA;
       display: flex;
       flex-direction: column;
@@ -27,7 +27,7 @@
       position: relative;
     }
 
-    @keyframes backgroundPulse {
+    @keyframes umichPulse {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
@@ -156,7 +156,7 @@
     }
 
     function getRandomColor() {
-      let colors = ["#ffcc00", "#ff6666", "#66ccff", "#66ff66", "#ff66ff", "#ff5733", "#33ff57", "#5733ff"];
+      let colors = ["#FFCB05", "#00274C", "#ff6666", "#66ccff", "#66ff66", "#ff66ff"];
       return colors[Math.floor(Math.random() * colors.length)];
     }
 
