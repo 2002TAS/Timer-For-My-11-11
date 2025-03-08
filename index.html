@@ -66,7 +66,7 @@
       width: 120px;
       margin: 10px 0;
       border-radius: 15px;
-      display: none; /* Initially Hidden */
+      display: none;
       filter: drop-shadow(0px 0px 10px gold);
       animation: glowFade 3s ease-in-out infinite alternate;
       position: relative;
@@ -101,25 +101,20 @@
       100% { opacity: 0; transform: scale(1) translateY(-40px); }
     }
 
-    /* 🎆 Exploding Fireworks - Now Visible Below the Bear */
-    .firework {
+    /* 🎆 Pulsating Firework Dots */
+    .firework-dot {
       position: absolute;
-      width: 20px;
-      height: 20px;
-      background: yellow;
+      width: 12px;
+      height: 12px;
       border-radius: 50%;
       opacity: 0;
-      animation: explode 2s ease-out forwards;
-      bottom: 5vh; /* Keep it lower on the screen */
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1; /* Ensure fireworks are behind the bear */
+      animation: fireworkPulse 3s ease-in-out infinite;
     }
 
-    @keyframes explode {
-      0% { opacity: 1; transform: scale(1); }
-      50% { opacity: 1; transform: scale(8); }
-      100% { opacity: 0; transform: scale(12); }
+    @keyframes fireworkPulse {
+      0% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: 1; transform: scale(1.5); }
+      100% { opacity: 0; transform: scale(2); }
     }
 
     /* ⏳ Timer */
@@ -169,7 +164,7 @@
           document.getElementById("hugging-bear").style.display = "block";
 
           startBokehLights(); // Start floating light effect
-          startFireworks(); // Fireworks now visible below the bear
+          startFireworkDots(); // Pulsating Fireworks
           clearInterval(timerInterval);
         } else {
           let days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
@@ -183,15 +178,16 @@
       updateTimer();
     }
 
-    function startFireworks() {
+    function startFireworkDots() {
       setInterval(() => {
-        let firework = document.createElement("div");
-        firework.className = "firework";
-        firework.style.left = Math.random() * 50 + 25 + "vw";
-        firework.style.backgroundColor = getRandomColor();
-        document.body.appendChild(firework);
-        setTimeout(() => firework.remove(), 2000);
-      }, 400);
+        let dot = document.createElement("div");
+        dot.className = "firework-dot";
+        dot.style.left = Math.random() * 100 + "vw";
+        dot.style.top = Math.random() * 70 + 30 + "vh";
+        dot.style.backgroundColor = getRandomColor();
+        document.body.appendChild(dot);
+        setTimeout(() => dot.remove(), 3000);
+      }, 500);
     }
 
     function getRandomColor() {
@@ -199,7 +195,7 @@
       return colors[Math.floor(Math.random() * colors.length)];
     }
 
-    startCountdown(new Date().getTime() - 1000); // Testing immediate countdown finish
+    startCountdown(new Date().getTime() - 1000);
   </script>
 
 </body>
