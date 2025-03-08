@@ -40,7 +40,7 @@
       margin-bottom: 10px;
       font-family: "Pacifico", cursive;
       position: relative;
-      left: 5px; /* Push text slightly to the right */
+      left: 5px;
       transition: all 0.5s ease-in-out;
     }
 
@@ -67,10 +67,10 @@
       margin: 10px 0;
       border-radius: 15px;
       display: none; /* Initially Hidden */
-      filter: drop-shadow(0px 0px 10px gold); /* Soft glow */
+      filter: drop-shadow(0px 0px 10px gold);
       animation: glowFade 3s ease-in-out infinite alternate;
       position: relative;
-      z-index: 2; /* Ensure bear is above fireworks */
+      z-index: 2;
     }
 
     /* Glowing effect for text */
@@ -101,23 +101,25 @@
       100% { opacity: 0; transform: scale(1) translateY(-40px); }
     }
 
-    /* 🎆 Exploding Fireworks - Now Below the Bear */
+    /* 🎆 Exploding Fireworks - Now Visible Below the Bear */
     .firework {
       position: absolute;
-      width: 10px;
-      height: 10px;
+      width: 20px;
+      height: 20px;
       background: yellow;
       border-radius: 50%;
       opacity: 0;
-      animation: explode 1.5s ease-out forwards;
+      animation: explode 2s ease-out forwards;
+      bottom: 5vh; /* Keep it lower on the screen */
+      left: 50%;
+      transform: translateX(-50%);
       z-index: 1; /* Ensure fireworks are behind the bear */
-      bottom: 10vh; /* Position fireworks lower */
     }
 
     @keyframes explode {
       0% { opacity: 1; transform: scale(1); }
-      50% { opacity: 1; transform: scale(5); }
-      100% { opacity: 0; transform: scale(8); }
+      50% { opacity: 1; transform: scale(8); }
+      100% { opacity: 0; transform: scale(12); }
     }
 
     /* ⏳ Timer */
@@ -167,7 +169,7 @@
           document.getElementById("hugging-bear").style.display = "block";
 
           startBokehLights(); // Start floating light effect
-          startFireworks(); // Fireworks now below the bear
+          startFireworks(); // Fireworks now visible below the bear
           clearInterval(timerInterval);
         } else {
           let days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
@@ -185,11 +187,11 @@
       setInterval(() => {
         let firework = document.createElement("div");
         firework.className = "firework";
-        firework.style.left = Math.random() * 100 + "vw";
+        firework.style.left = Math.random() * 50 + 25 + "vw";
         firework.style.backgroundColor = getRandomColor();
         document.body.appendChild(firework);
-        setTimeout(() => firework.remove(), 1500);
-      }, 300);
+        setTimeout(() => firework.remove(), 2000);
+      }, 400);
     }
 
     function getRandomColor() {
@@ -197,9 +199,7 @@
       return colors[Math.floor(Math.random() * colors.length)];
     }
 
-    // 🚨 Force the countdown to end immediately for testing 🚨
-    const targetTimeUTC = new Date().getTime() - 1000; // Sets it to 1 second in the past
-    startCountdown(targetTimeUTC);
+    startCountdown(new Date().getTime() - 1000); // Testing immediate countdown finish
   </script>
 
 </body>
