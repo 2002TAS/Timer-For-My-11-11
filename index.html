@@ -41,6 +41,7 @@
       font-family: "Pacifico", cursive;
       position: relative;
       left: 5px; /* Push text slightly to the right */
+      transition: all 0.5s ease-in-out;
     }
 
     /* "Safe Travels Mi Amor" */
@@ -50,6 +51,7 @@
       margin-top: 20px;
       margin-bottom: 15px;
       font-family: "Pacifico", cursive;
+      transition: all 0.5s ease-in-out;
     }
 
     /* 🐻 Original Bear (Visible Before Countdown Ends) */
@@ -65,6 +67,36 @@
       margin: 10px 0;
       border-radius: 15px;
       display: none; /* Initially Hidden */
+      filter: drop-shadow(0px 0px 10px gold); /* Soft glow */
+      animation: glowFade 3s ease-in-out infinite alternate;
+    }
+
+    /* Glowing effect for text */
+    .glowing-text {
+      text-shadow: 0px 0px 10px gold, 0px 0px 20px white;
+      animation: glowFade 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes glowFade {
+      0% { filter: drop-shadow(0px 0px 5px gold); text-shadow: 0px 0px 5px gold; }
+      100% { filter: drop-shadow(0px 0px 20px gold); text-shadow: 0px 0px 15px gold; }
+    }
+
+    /* 🌟 Floating Bokeh Light Effect */
+    .bokeh {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: rgba(255, 223, 150, 0.7);
+      border-radius: 50%;
+      opacity: 0;
+      animation: bokehFloat 5s linear infinite;
+    }
+
+    @keyframes bokehFloat {
+      0% { opacity: 0; transform: scale(0.8) translateY(0); }
+      50% { opacity: 1; transform: scale(1.2) translateY(-20px); }
+      100% { opacity: 0; transform: scale(1) translateY(-40px); }
     }
 
     /* ⏳ Timer */
@@ -82,37 +114,6 @@
     }
 
     .hidden { display: none; }
-
-    /* 🎆 Exploding Fireworks */
-    .firework {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      background: yellow;
-      border-radius: 50%;
-      opacity: 0;
-      animation: explode 1.5s ease-out forwards;
-    }
-
-    @keyframes explode {
-      0% { opacity: 1; transform: scale(1); }
-      50% { opacity: 1; transform: scale(5); }
-      100% { opacity: 0; transform: scale(8); }
-    }
-
-    /* 🌹 Falling Roses */
-    .rose {
-      position: absolute;
-      font-size: 24px;
-      opacity: 0.9;
-      animation: fall linear infinite;
-    }
-
-    @keyframes fall {
-      0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
-    }
-
   </style>
 </head>
 <body>
@@ -136,6 +137,7 @@
 
         if (timeLeft <= 0) {
           document.getElementById("heading").textContent = "YAY MY WIFE IS HERE!";
+          document.getElementById("heading").classList.add("glowing-text");
           document.getElementById("message").classList.add("hidden");
           document.getElementById("timer-container").classList.add("hidden");
 
@@ -143,8 +145,7 @@
           document.getElementById("original-bear").style.display = "none";
           document.getElementById("hugging-bear").style.display = "block";
 
-          startFireworks(); // Start exploding fireworks
-          startRoses(); // Start falling roses
+          startBokehLights(); // Start floating light effect
           clearInterval(timerInterval);
         } else {
           let days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
@@ -158,33 +159,16 @@
       updateTimer();
     }
 
-    function startFireworks() {
+    function startBokehLights() {
       setInterval(() => {
-        let firework = document.createElement("div");
-        firework.className = "firework";
-        firework.style.left = Math.random() * 100 + "vw";
-        firework.style.top = Math.random() * 80 + "vh";
-        firework.style.backgroundColor = getRandomColor();
-        document.body.appendChild(firework);
-        setTimeout(() => firework.remove(), 1500);
-      }, 300);
-    }
-
-    function startRoses() {
-      setInterval(() => {
-        let rose = document.createElement("div");
-        rose.className = "rose";
-        rose.textContent = "🌹";
-        rose.style.left = Math.random() * 100 + "vw";
-        rose.style.animationDuration = (Math.random() * 3 + 3) + "s";
-        document.body.appendChild(rose);
-        setTimeout(() => rose.remove(), 6000);
-      }, 500);
-    }
-
-    function getRandomColor() {
-      let colors = ["#FFCB05", "#00274C", "#ff6666", "#66ccff", "#66ff66", "#ff66ff"];
-      return colors[Math.floor(Math.random() * colors.length)];
+        let bokeh = document.createElement("div");
+        bokeh.className = "bokeh";
+        bokeh.style.left = Math.random() * 100 + "vw";
+        bokeh.style.top = Math.random() * 100 + "vh";
+        bokeh.style.animationDuration = (Math.random() * 4 + 3) + "s";
+        document.body.appendChild(bokeh);
+        setTimeout(() => bokeh.remove(), 5000);
+      }, 400);
     }
 
     // 🚨 Force the countdown to end immediately for testing 🚨
