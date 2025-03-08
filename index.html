@@ -54,6 +54,19 @@
       transition: all 0.5s ease-in-out;
     }
 
+    /* Countdown & Celebration Pages */
+    #countdown-page, #celebration-page {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
     /* 🐻 Original Bear (Before Countdown Ends) */
     #original-bear {
       width: 120px;
@@ -61,7 +74,7 @@
       border-radius: 15px;
     }
 
-    /* 🐻 Hugging Bear (Hidden Until Countdown Ends) */
+    /* 🐻 Hugging Bear (After Countdown Ends) */
     #hugging-bear {
       width: 120px;
       margin: 10px 0;
@@ -131,20 +144,6 @@
       color: white;
     }
 
-    /* Hide celebration page until countdown ends */
-    #celebration-page {
-      display: none;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: inherit;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-    }
-
     .hidden { display: none; }
   </style>
 </head>
@@ -154,30 +153,34 @@
     <h1 id="heading">My Countdown To When My Wife Lands</h1>
     <div id="message">♥️ Safe Travels Mi Amor ♥️</div>
 
-    <!-- 🐻 Original Bear (Before Countdown Ends) -->
     <img id="original-bear" src="https://raw.githubusercontent.com/2002TAS/Timer-For-My-11-11/main/Bear.webp" alt="Waiting Bear">
 
     <div id="timer-container"><span id="timer">Loading...</span></div>
   </div>
 
-  <div id="celebration-page">
+  <div id="celebration-page" class="hidden">
     <h1 id="celebration-heading" class="glowing-text">YAY MY WIFE IS HERE!</h1>
-    <!-- 🐻 Hugging Bear (Appears After Countdown) -->
     <img id="hugging-bear" src="https://raw.githubusercontent.com/2002TAS/Timer-For-My-11-11/main/HuggingBear.webp" alt="Hugging Bear">
   </div>
 
   <script>
+    const targetTime = new Date("March 8, 2025 18:55:00 EST").getTime();
+    const hasArrived = localStorage.getItem("arrived");
+
+    if (hasArrived) {
+      showCelebrationPage();
+    } else {
+      startCountdown(targetTime);
+    }
+
     function startCountdown(targetDate) {
       function updateTimer() {
         let now = new Date().getTime();
         let timeLeft = targetDate - now;
 
         if (timeLeft <= 0) {
-          document.getElementById("countdown-page").style.display = "none";
-          document.getElementById("celebration-page").style.display = "flex";
-
-          startBokehLights();
-          startFireworkDots();
+          localStorage.setItem("arrived", true);
+          showCelebrationPage();
           clearInterval(timerInterval);
         } else {
           let days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
@@ -191,8 +194,10 @@
       updateTimer();
     }
 
-    const targetTimeUTC = new Date().getTime() + 5000; // Set to 5 seconds for testing
-    startCountdown(targetTimeUTC);
+    function showCelebrationPage() {
+      document.getElementById("countdown-page").classList.add("hidden");
+      document.getElementById("celebration-page").classList.remove("hidden");
+    }
   </script>
 
 </body>
